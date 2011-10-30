@@ -1,0 +1,203 @@
+% resume.tex
+%
+% (c) 2002 Matthew Boedicker <mboedick@mboedick.org> (original author) http://mboedick.org
+% (c) 2003 David J. Grant <dgrant@ieee.org> http://www.davidgrant.ca
+% (c) 2007 Todd C. Miller <Todd.Miller@courtesan.com> http://www.courtesan.com/todd
+% (c) 2009 Derek R. Hildreth <derek@derekhildreth.com> http://www.derekhildreth.com 
+%This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/1.0/ or send a letter to Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305, USA.
+
+% GENERAL NOTE:  There may be some notes specific to myself.  If you're only interested in my LaTeX source or it doesn't make sense, please disregard it.
+
+\documentclass[letterpaper,11pt]{article}
+
+%-----------------------------------------------------------
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage[pdftex]{hyperref}
+\hypersetup{
+    colorlinks,%
+    citecolor=black,%
+    filecolor=black,%
+    linkcolor=black,%
+    urlcolor=mygreylink     % can put red here to visualize the links
+}
+\urlstyle{same}
+\definecolor{mygrey}{gray}{.85}
+\definecolor{mygreylink}{gray}{.30}
+\textheight=9.0in
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.375in}
+\addtolength{\evensidemargin}{0.375in}
+\addtolength{\textwidth}{0.5in}
+\addtolength{\topmargin}{-.375in}
+\addtolength{\textheight}{0.75in}
+
+%-----------------------------------------------------------
+%Custom commands
+\newcommand{\resitem}[1]{\item #1 \vspace{-2pt}}
+\newcommand{\resheading}[1]{{\large \colorbox{mygrey}{\begin{minipage}{\textwidth}{\textbf{#1 \vphantom{p\^{E}}}}\end{minipage}}}}
+\newcommand{\multiHeading}[2]{
+\begin{tabular*}{6.5in}{l@{\extracolsep{\fill}}r}
+  \textbf{#1} & \textit{#2} \\
+\end{tabular*}\vspace{-6pt}}
+\newcommand{\multiPart}[2]{
+\begin{tabular*}{6.5in}{l@{\extracolsep{\fill}}r}
+  \textit{#1} & \textit{#2} \\
+\end{tabular*}\vspace{-6pt}}
+
+\newcommand{\ressubheading}[4]{
+\begin{tabular*}{6.5in}{l@{\extracolsep{\fill}}r}
+		\textbf{#1} & #2 \\
+		\textit{#3} & \textit{#4} \\
+\end{tabular*}\vspace{-6pt}}
+%-----------------------------------------------------------
+
+%-----------------------------------------------------------
+%General Resume Tips
+%   No periods!  Technically, nothing in this document is a full sentence.
+%   Use parallelism by ending key words with the same thing,  i.e. "Coordinated; Designed; Communicated".
+%   More tips on bottom of this LaTeX document.
+%-----------------------------------------------------------
+
+\begin{document}
+
+\newcommand{\mywebheader}{
+\begin{tabular*}{7in}{l@{\extracolsep{\fill}}r}
+	\textbf{\href{http://kracken.cs.ucla.edu/}{\LARGE Keith D. Stevens}} & \href{mailto:kstevens@cs.ucla.edu}{kstevens@cs.ucla.edu}\\
+	{\footnotesize \texttt{\colorbox{yellow}{805-433-2295; 18375 Ventura Blvd \#574 Tarzana, CA 91356}}} & \href{http://kracken.cs.ucla.edu}{http://kracken.cs.ucla.edu} \\
+	\end{tabular*}
+\\
+\vspace{0.1in}}
+
+% CHANGE HEADER SOURCE HERE
+\mywebheader
+
+%%%%%%%%%%%%%%%%%%%%%%
+\resheading{Education}
+  \multiHeading{\href{http://www.ucla.edu}{University of California, Los Angeles}}
+               {Los Angeles, CA}  \\
+  \begin{itemize}
+    \item \multiPart{PhD in Computer Science, Focus: Word Sense Induction}{GPA:3.847; In Progress}
+    \item \multiPart{Masters in Computer Science, Focus: Computational
+    Linguistics}{GPA:3.847; Fall 2011}
+    \item \multiPart{Bachelors in Computer Science}{GPA:3.588; Fall 2007}
+    { \footnotesize
+    \begin{itemize}
+      \resitem{Key Courses: Machine Learning, Learning Theory, Language and
+      Thought, Connectionist Systems, Advanced Operating Systems, Static
+      Analysis, Parallel Languages}
+      \resitem{TAed Courses: Modern Compilers, Operating System Principles, Data
+      Structures and Algorithms, Software Construction, Ethics and Engineering}
+    \end{itemize}
+    }
+  \end{itemize} % End Education list
+
+%%%%%%%%%%%%%%%%%%%%%%
+\resheading{Experience}
+  \begin{itemize}
+    \item \ressubheading{\href{http://www.llnl.gov}
+                              {Lawrence Livermore National Lab}}
+                        {Livermore, CA}
+                        {Lawrence Livermore Scholar}
+                        {June 2011 -- Present}
+          { \footnotesize
+            \begin{itemize}
+              \resitem{Evaluated three ``Topic Models'' using coherence metrics
+                       to better define which use cases suited each algorithm}
+              \resitem{Applied topic coherence metrics to Word Sense Induction
+                       models}
+              \resitem{Applied Consensus Clustering to Word Sense Induction Models
+                       to further understand the feature space and performance
+                       characteristics of the applied clustering models}
+              \resitem{Maintained a Hadoop and HBase infrastructure}
+            \end{itemize}
+          }
+    \item \ressubheading{\href{http://www.llnl.gov}
+                              {Lawrence Livermore National Lab}}
+                        {Livermore, CA}
+                        {Summer Research Intern}
+                        {June 2010 -- September 2010}
+          { \footnotesize
+            \begin{itemize}
+              \resitem{Developed a new API for directly modifying the WordNet
+                       lexical ontology as the C-Cat Package}
+              \resitem{Applied distributional semantics to customizing lexical
+                       ontologies}
+              \resitem{Developed a framework for building Word Sense Induction
+                       Models}
+            \end{itemize}
+          }
+    \item \ressubheading{\href{http://www.Google.com}
+                              {Google Inc.}}
+                        {Kirkland, WA}
+                        {Software Engineering Intern}
+                        {June 2009 -- September 2009}
+          { \footnotesize
+            \begin{itemize}
+              \resitem{Enhanced a document selection system with the addition of
+                       semantic analysis that represented the change of semantic
+                       content in the document.}
+              \resitem{Enhanced crawling framework for the document selection
+                       system, improving savings by up to 50\% usage of external
+                       resources}
+              \resitem{Restructured document selection system to be more
+                       scalable and abide by internal policies}
+            \end{itemize}
+          }
+    \item \ressubheading{\href{http://www.Google.com}
+                              {Google Inc.}}
+                        {Kirkland, WA}
+                        {Software Engineering Intern}
+                        {January 2008 -- September 2009}
+          { \footnotesize
+            \begin{itemize}
+              \resitem{Built a highly scalable, stateless server for responding
+                       to a wide variety, and high volume, of requests}
+              \resitem{Developed several plugins for the server
+                       allowing uniform access to a wide variety of internal data
+                       sources }
+              \resitem{Improved response query formulation time with a plugin
+                       for the above server}
+            \end{itemize}
+          }
+  \end{itemize}  % End Experience list
+
+%%%%%%%%%%%%%%%%%%%%%%
+\resheading{Skills and Interests}
+  \begin{description}
+    \item[Topics of Interest:] { 
+      \footnotesize Distributional Semantics, Word Sense Disambiguation, Word
+      Sense Induction, Ontologies, Topic Models, Machine Learning, Clustering,
+      Evaluation Metrics, Statistical Inference, Dimensionality Reduction 
+    }
+    \item[Languages:] {
+      \footnotesize Scala, Java, C/C++, Python, Bash, LaTex, R
+    }
+  \end{description} % End Skills list
+
+\resheading{Open Source Projects}
+  \begin{description}
+    \item[\href{https://github.com/fozziethebeat/C-Cat} {The C-Cat Project:}] {
+      \footnotesize An open source project centered around customizing lexical
+      ontologies based on distributional semantics mined from large scale
+      corpora.  This includes a new API for directly modify WordNet and several
+      Word Sense Disambiguation implementations. This
+      package uses the Hadoop and HBase frameworks for distributed processing
+      and storage.
+    }
+    \item[\href{https://github.com/fozziethebeat/S-Space} {The S-Space Project:}] {
+      \footnotesize An open source framework for using, building, and evaluating
+      word space algorithms.  It provides several reference implementations and
+      a wide variety of utility classes in addition to several highly optimized
+      clustering algorithms.  This also includes a framework for Word Sense
+      Induction models.
+    }
+  \end{description} % End Skills list
+
+\end{document}
