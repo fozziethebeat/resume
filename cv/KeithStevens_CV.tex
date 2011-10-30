@@ -1,0 +1,1022 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%% Simple LaTeX CV Template %%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% NOTE: If you find that it says                                     %%
+%%                                                                    %%
+%%                           1 of ??                                  %%
+%%                                                                    %%
+%% at the bottom of your first page, this means that the AUX file     %%
+%% was not available when you ran LaTeX on this source. Simply RERUN  %%
+%% LaTeX to get the ``??'' replaced with the number of the last page  %%
+%% of the document. The AUX file will be generated on the first run   %%
+%% of LaTeX and used on the second run to fill in all of the          %%
+%% references.                                                        %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% Document Setup %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Don't like 10pt? Try 11pt or 12pt
+\documentclass[10pt]{article}
+
+% This is a helpful package that puts math inside length specifications
+\usepackage{calc}
+
+% Simpler bibsection for CV sections
+% (thanks to natbib for inspiration)
+\makeatletter
+\newlength{\bibhang}
+\setlength{\bibhang}{1em}
+\newlength{\bibsep}
+ {\@listi \global\bibsep\itemsep \global\advance\bibsep by\parsep}
+\newenvironment{bibsection}%
+        {\begin{list}{}{%
+       \setlength{\leftmargin}{\bibhang}%
+       \setlength{\itemindent}{-\leftmargin}%
+       \setlength{\itemsep}{\bibsep}%
+       \setlength{\parsep}{\z@}%
+        \setlength{\partopsep}{0pt}%
+        \setlength{\topsep}{0pt}}}
+        {\end{list}\vspace{-.6\baselineskip}}
+\makeatother
+
+% Layout: Puts the section titles on left side of page
+\reversemarginpar
+
+%
+%         PAPER SIZE, PAGE NUMBER, AND DOCUMENT LAYOUT NOTES:
+%
+% The next \usepackage line changes the layout for CV style section
+% headings as marginal notes. It also sets up the paper size as either
+% letter or A4. By default, letter was used. If A4 paper is desired,
+% comment out the letterpaper lines and uncomment the a4paper lines.
+%
+% As you can see, the margin widths and section title widths can be
+% easily adjusted.
+%
+% ALSO: Notice that the includefoot option can be commented OUT in order
+% to put the PAGE NUMBER *IN* the bottom margin. This will make the
+% effective text area larger.
+%
+% IF YOU WISH TO REMOVE THE ``of LASTPAGE'' next to each page number,
+% see the note about the +LP and -LP lines below. Comment out the +LP
+% and uncomment the -LP.
+%
+% IF YOU WISH TO REMOVE PAGE NUMBERS, be sure that the includefoot line
+% is uncommented and ALSO uncomment the \pagestyle{empty} a few lines
+% below.
+%
+
+%% Use these lines for letter-sized paper
+\usepackage[paper=letterpaper,
+            %includefoot, % Uncomment to put page number above margin
+            marginparwidth=1.2in,     % Length of section titles
+            marginparsep=.05in,       % Space between titles and text
+            margin=1in,               % 1 inch margins
+            includemp]{geometry}
+
+%% Use these lines for A4-sized paper
+%\usepackage[paper=a4paper,
+%            %includefoot, % Uncomment to put page number above margin
+%            marginparwidth=30.5mm,    % Length of section titles
+%            marginparsep=1.5mm,       % Space between titles and text
+%            margin=25mm,              % 25mm margins
+%            includemp]{geometry}
+
+%% More layout: Get rid of indenting throughout entire document
+\setlength{\parindent}{0in}
+
+\usepackage[shortlabels]{enumitem}
+
+%% Reference the last page in the page number
+%
+% NOTE: comment the +LP line and uncomment the -LP line to have page
+%       numbers without the ``of ##'' last page reference)
+%
+% NOTE: uncomment the \pagestyle{empty} line to get rid of all page
+%       numbers (make sure includefoot is commented out above)
+%
+\usepackage{fancyhdr,lastpage}
+\pagestyle{fancy}
+%\pagestyle{empty}      % Uncomment this to get rid of page numbers
+\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+\fancyfootoffset{\marginparsep+\marginparwidth}
+\newlength{\footpageshift}
+\setlength{\footpageshift}
+          {0.5\textwidth+0.5\marginparsep+0.5\marginparwidth-2in}
+\lfoot{\hspace{\footpageshift}%
+       \parbox{4in}{\, \hfill %
+                    \arabic{page} of \protect\pageref*{LastPage} % +LP
+%                    \arabic{page}                               % -LP
+                    \hfill \,}}
+
+% Finally, give us PDF bookmarks
+\usepackage{color,hyperref}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.3}
+\hypersetup{colorlinks,breaklinks,
+            linkcolor=darkblue,urlcolor=darkblue,
+            anchorcolor=darkblue,citecolor=darkblue}
+
+%%%%%%%%%%%%%%%%%%%%%%%% End Document Setup %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% Helper Commands %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% The title (name) with a horizontal rule under it
+% (optional argument typesets an object right-justified across from name
+%  as well)
+%
+% Usage: \makeheading{name}
+%        OR
+%        \makeheading[right_object]{name}
+%
+% Place at top of document. It should be the first thing.
+% If ``right_object'' is provided in the square-braced optional
+% argument, it will be right justified on the same line as ``name'' at
+% the top of the CV. For example:
+%
+%       \makeheading[\emph{Curriculum vitae}]{Your Name}
+%
+% will put an emphasized ``Curriculum vitae'' at the top of the document
+% as a title. Likewise, a picture could be included:
+%
+%   \makeheading[\includegraphics[height=1.5in]{my_picutre}]{Your Name}
+%
+% the picture will be flush right across from the name.
+\newcommand{\makeheading}[2][]%
+        {\hspace*{-\marginparsep minus \marginparwidth}%
+         \begin{minipage}[t]{\textwidth+\marginparwidth+\marginparsep}%
+             {\large \bfseries #2 \hfill #1}\\[-0.15\baselineskip]%
+                 \rule{\columnwidth}{1pt}%
+         \end{minipage}}
+
+% The section headings
+%
+% Usage: \section{section name}
+\renewcommand{\section}[1]{\pagebreak[3]%
+    \hyphenpenalty=10000%
+    \vspace{1.3\baselineskip}%
+    \phantomsection\addcontentsline{toc}{section}{#1}%
+    \noindent\llap{\scshape\smash{\parbox[t]{\marginparwidth}{\raggedright #1}}}%
+    \vspace{-\baselineskip}\par}
+
+% An itemize-style list with lots of space between items
+\newenvironment{outerlist}[1][\enskip\textbullet]%
+        {\begin{itemize}[#1,leftmargin=*]}{\end{itemize}%
+         \vspace{-.6\baselineskip}}
+
+% An environment IDENTICAL to outerlist that has better pre-list spacing
+% when used as the first thing in a \section
+\newenvironment{lonelist}[1][\enskip\textbullet]%
+        {\begin{list}{#1}{%
+        \setlength{\partopsep}{0pt}%
+        \setlength{\topsep}{0pt}}}
+        {\end{list}\vspace{-.6\baselineskip}}
+
+% An itemize-style list with little space between items
+\newenvironment{innerlist}[1][\enskip\textbullet]%
+        {\begin{itemize}[#1,leftmargin=*,parsep=0pt,itemsep=0pt,topsep=0pt,partopsep=0pt]}
+        {\end{itemize}}
+
+% An environment IDENTICAL to innerlist that has better pre-list spacing
+% when used as the first thing in a \section
+\newenvironment{loneinnerlist}[1][\enskip\textbullet]%
+        {\begin{itemize}[#1,leftmargin=*,parsep=0pt,itemsep=0pt,topsep=0pt,partopsep=0pt]}
+        {\end{itemize}\vspace{-.6\baselineskip}}
+
+% To add some paragraph space between lines.
+% This also tells LaTeX to preferably break a page on one of these gaps
+% if there is a needed pagebreak nearby.
+\newcommand{\blankline}{\quad\pagebreak[3]}
+\newcommand{\halfblankline}{\quad\vspace{-0.5\baselineskip}\pagebreak[3]}
+
+% Uses hyperref to link DOI
+\newcommand\doilink[1]{\href{http://dx.doi.org/#1}{#1}}
+\newcommand\doi[1]{doi:\doilink{#1}}
+
+% For \url{SOME_URL}, links SOME_URL to the url SOME_URL
+\providecommand*\url[1]{\href{#1}{#1}}
+% Same as above, but pretty-prints SOME_URL in teletype fixed-width font
+\renewcommand*\url[1]{\href{#1}{\texttt{#1}}}
+
+% For \email{ADDRESS}, links ADDRESS to the url mailto:ADDRESS
+\providecommand*\email[1]{\href{mailto:#1}{#1}}
+% Same as above, but pretty-prints ADDRESS in teletype fixed-width font
+%\renewcommand*\email[1]{\href{mailto:#1}{\texttt{#1}}}
+
+%\providecommand\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+%    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+%\providecommand\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+%    \TeX}}
+\providecommand\BibTeX{{B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    \TeX}}
+\providecommand\Matlab{\textsc{Matlab}}
+
+%%%%%%%%%%%%%%%%%%%%%%%% End Helper Commands %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%% Begin CV Document %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\makeheading{Keith D. Stevens}
+
+\section{Contact Information}
+
+% NOTE: Mind where the & separators and \\ breaks are in the following
+%       table.
+%
+% ALSO: \rcollength is the width of the right column of the table
+%       (adjust it to your liking; default is 1.85in).
+%
+\newlength{\rcollength}\setlength{\rcollength}{1.85in}%
+%
+\begin{tabular}[t]{@{}p{\textwidth-\rcollength}p{\rcollength}}
+\href{http://iscr.llnl.gov/}%
+     {Institute for Scientific Computing Research} & \textit{Mobile:} +1-805-433-2295\\
+\href{http://www.llnl.gov/}{Lawrence Livermore National Lab}
+7000 East Ave,       & \textit{E-mail:} \email{kstevens@cs.ucla.edu}\\
+Livermore, CA 94551  & \textit{WWW:}
+\href{http://kracken.cs.ucla.edu/}{kracken.cs.ucla.edu}\\
+\end{tabular}
+
+\section{Objective}
+
+Placement in a development and/or research position centered around distributed
+semantics and unsupervised learning, along with applying current theories on
+these topics to web search or other human oriented data exploration.
+
+\section{Research Interests}
+
+My research focuses on the unsupervised acquisition of word senses and the
+automated evaluation of related models.  Word sense acquisition, or Word Sense
+Induction (WSI), attempts to use contextual information to learn distinct word
+senses as they appear in large corpora.  My initial work centered around
+developing a simple framework for building and applying WSI models.  My work now
+focuses on finding automated intrinsic and extrinsic evaluation metrics that
+explain how to improve these models.
+
+
+\section{Education}
+
+\href{http://www.ucla.edu/}{\textbf{University of California, Los Angeles}},
+Los Angeles, California USA
+\begin{outerlist}
+
+\item[] Ph.D.,
+        \href{http://www.cs.ucla.edu/}
+             {Computer Science},
+             In Progress
+        \begin{innerlist}
+        \item Thesis Topic: \emph{Intrinsic and Extrinsic evaluation frameworks
+        for Word Sense Induction models}
+        \item Adviser:
+              \href{http://www.cs.ucla.edu/~dyer/}
+                   {Professor Michael G.~Dyer}
+        \item Area of Study: Computational Linguistics
+        \end{innerlist}
+
+\item[] M.S.,
+        \href{http://www.cs.ucla.edu/}
+             {Computer Science}, October 2011
+        \begin{innerlist}
+        \item Thesis Topic: \emph{Extending Word Sense Induction with waiting
+        and depending}
+        \item Adviser:
+              \href{http://www.cs.ucla.edu/~dyer/}
+                   {Professor Michael G.~Dyer}
+        \item Area of Study: Computational Linguistics
+        \end{innerlist}
+
+\item[] B.S.,
+        \href{http://www.cs.ucla.edu/}
+             {Computer Science}, December 2007
+        \begin{innerlist}
+          \item Computer Science
+          \item Minor in Mathematics
+        \end{innerlist}
+
+\end{outerlist}
+
+\section{Research Experience}
+
+\href{http://www.llnl.gov/}{\textbf{Lawrence Livermore National Lab}},
+Livermore, California USA
+\begin{outerlist}
+
+\item[] \textbf{Word Sense and Topic Model Evaluation} \\
+        June 2011 - \textit{present} \\
+        Advisor: \textit{David Buttler} \\
+
+        I am currently evaluating three ``topic models'' with two recently
+        developed coherence metrics that have been closely associated with human
+        judgements.  Our current results indicate that the coherence metrics,
+        originally designed for Latent Dirichlet Allocation, can be applied to
+        other techniques such as Non-negative Matrix Factorization and Singular
+        Value Decomposition, as seen in Latent Semantic Analysis).  Furthermore,
+        we are evaluating new aggregate metrics for comparing entire models,
+        rather than just individual topics. \\
+
+        Based on the above research, I am beginning to investigate the
+        applicability of these coherence metrics as an intrinsic evaluation of
+        Word Sense Induction (WSI) models.  Current evaluation strategies for
+        WSI focus on costly human judgements and do not provide a method for
+        improving the models.  Along these lines, I am also Consensus Clustering
+        as an evaluation of the feature space used in WSI models and the
+        stability of clustering models used to differentiate word senses. \\
+
+\item[] \textbf{Ontology Expansion} \\
+        June 2010 - September 2010 \\
+        Advisor: \textit{David Buttler} \\
+
+        With David Buttler, I have investigated methods of automatically
+        enhancing existing concept hierarchies for the purpose of organizing
+        unstructured text documents. This work is in coordination with my work
+        in Distributional Semantics and will soon be used by several information
+        retrieval tasks at the national lab. \\
+
+\end{outerlist}
+
+\href{http://www.cs.ucla.edu/}{\textbf{University of California, Los Angeles}},
+Los Angeles, California USA
+\begin{outerlist}
+
+\item[] \textbf{Distributional Semantics} \\
+        September 2008 - June 2011 \\
+        Advisor: \textit{Michael G.~Dyer} \\
+
+        Distributional semantics assumes that the semantics of words can be
+        defined by the contexts in which they occur, an idea proposed by Firth
+        in 1957. The learned semantics have been shown to approximate semantic
+        judgements made by humans on psychological and standardized tests. My
+        research in this field has three main goals. \\
+
+        First, models for distributional semantics have been developed in a
+        variety of fields, such as Computational Linguistics, Cognitive Science,
+        and Artificial Intelligence. In order to permit accurate evaluation of
+        distinct models, a common framework is needed for their implementation
+        and evaluation. To this end, I have collaborated with David Jurgens to
+        develop the S-Space Package, a java based framework for implementing,
+        testing, and extending distributional models. \\
+
+        Second, current distributional models are incapable of distinguishing
+        between distinct meanings for a single word, for example, “cat” can
+        refer to feline pets, large felines found in the wild, or a brand of
+        construction vehicles. To learn these differences, I combine
+        distributional models with clustering techniques. Initial research in
+        this field, often known as Word Sense Induction, has already been shown
+        to perform well according to one measure in a coordinated semantic task,
+        SemEval, and to be applicable towards detecting the occurrence of news
+        worthy events. \\
+
+        Lastly, current distributional models lack organization. Word semantics
+        are unorga- nized and disconnected from each other. In contrast, concept
+        hierarchies provide a rich set of relationships between the semantics
+        associated with many words. I investigate methods of combining
+        distributional models and Word Sense Induction models for the purpose of
+        automatically building concept hierarchies. For this, I focus on two
+        approaches: extending existing hierarchies by enhancing current
+        semi-supervised tech- niques and inferring hierarchies automatically
+        from word semantics learned through only distributional methods.
+
+\end{outerlist}
+
+% Add a little space to nudge next ``Conference Publications'' marginpar
+% down to make room for tall ``Submitted Journal Publications''
+% marginpar. If there are enough submitted journal publications, this
+% space will not be needed (and should be removed).
+\vspace{0.1in}
+
+\section{Publications}
+
+\textbf{Referred} \\
+
+\begin{bibsection}
+  \item Keith Stevens, Terry Huang and David Buttler, ``The C-Cat Wordnet
+        Package: An Open Source Package for modifying and applying Wordnet.''
+        \emph{Systems Demonstration of the Global Wordnet Conference 2012},
+        2012.
+
+  \item David Jurgens and Keith Stevens, ``Measuring the Impact of Sense
+        Similarity on Word Sense Induction.'' \emph{Proceedings of the EMNLP 2011
+        Workshop on Unsupervised Learning in NLP}, 2011. ACL.
+
+  \item David Jurgens and Keith Stevens. ``Capturing Nonlinear Structure in Word
+        Spaces Through Dimensionality Reduction.'' \emph{Proceedings of the ACL 2010
+        Workshop on GEometrical Models of Natural Language Semantics}, 2010.
+
+  \item David Jurgens and Keith Stevens. ``HERMIT: Flexible Clustering for the
+        SemEval-2 WSI Task.'' \emph{Proceedings of the ACL 2010 SemEval-2010
+        Workshop}, 2010.
+
+  \item David Jurgens and Keith Stevens. ``The S-Space Package: An Open-Source
+        Framework for Word Space Algorithms.'' \emph{Proceedings of the ACL 2010
+        System Demonstrations}, 2010.
+
+  \item David Jurgens and Keith Stevens. ``Event Detection in Blogs using
+        Temporal Random Indexing.'' \emph{In Proceedings of the International
+        Workshop on Events on Emerging Text Types} (eETTs), pages 21-28, 2009. \\
+
+\end{bibsection} 
+
+\textbf{Manuscripts} \\
+
+\begin{bibsection}
+  \item David Jurgens and Keith Stevens. ``Word Ordering with Reduced
+        Dimensionality for Sense Induction.'' Technical Report 090020,
+        University of California Los Angeles, 2009.
+
+  \item Keith Stevens. ``Extending Word Sense Induction with waiting and
+        depending.'' Masters Thesis, University of California Los Angeles,
+        2010. \\
+
+\end{bibsection} 
+
+\textbf{In Progress} \\
+
+\begin{bibsection}
+  \item Keith Stevens and Others. ``Applying Topic Coherence metrics over many models and
+        many topics.''
+
+  \item Keith Stevens and Others. ``Evaluation Induced Word Senses with Topic
+        Coherence Metrics.''
+
+  \item Keith Stevens and Others. ``Understanding Word Sense Induction with
+        Consensus Clustering.'' \\
+
+\end{bibsection}
+
+\section{Teaching Experience}
+
+\href{http://www..ucla.edu}{\textbf{University of California, Los Angeles}},
+Los Angeles, California USA
+\begin{outerlist}
+
+\item[] \textbf{Computer Science 32 - Introduction to Computer Science II } \\
+        Teaching Assistant, \textit{Winter 2009} \textit{Spring 2009} \\
+
+        This course introduces students to basic object oriented design a
+        fundamental data structures.  Topics include C++ classes, C++ templates,
+        pointer management, trees and traversal methods, inheritance, and
+        recursion.  As the teaching assistant, I was responsible for teaching a
+        weekly 2 hour discussion section that reviewed class lectures and broke
+        down class assignments.
+
+\item[] \textbf{Computer Science 35L - Software Construction Laboratory} \\
+        Teaching Assistant, \textit{Fall 2008} \textit{Fall 2009} \\
+
+        This course introduces students to fundamental concepts for developing
+        software in a unix environment.  Topics include Bash and Python
+        scripting, The GNU debugger, basic C programming, version control,
+        network security, and basic operating system tools.  As the teaching
+        assistant, I was responsible for all lectures and lab assignments.
+
+\item[] \textbf{Computer Science 111 - Introduction to Operating System
+                                       Principles} \\
+        Teaching Associate, \textit{Spring 2010} \textit{Fall 2010} \\
+
+        This course introduces students to the basic theories behind modern
+        operating systems, with a focus on theories behind the Linux Kernel.
+        Topics include concurrency, device management, file systems, memory
+        management, process and thread management, Remote Procedure Calls,
+        scheduling, security and protection, and shell design.  As the teaching
+        assistant, I applied theories taught in class to a six lab assignments
+        that covered virtual memory, process management, kernel modules, shell
+        design, file systems, and remote applications.  
+
+\item[] \textbf{Computer Science 132 - Modern Compiler Construction} \\
+        Teaching Associate, \textit{Winter 2011} \\
+
+        This course introduces students to the theories and practices behind
+        compiler design.  Students learn topics focusing on parsing, type
+        checking, register allocation, and virtual machines. As the teaching
+        assistant, I applied theories taught in lectures to practical examples
+        of compilers and assisted students with lab assignments, along with
+        grading of all lab assignments.
+        
+\item[] \textbf{Engineering 183 - Engineering and Society} \\
+        Teaching Associate, \textit{Winter 2011} \\
+
+        This course introduces students to professional and ethical
+        considerations experienced in engineering positions. 
+        Emphasis is placed on the impact of technology on society and the
+        development of moral and ethical values. This course also serves as the
+        technical writing course for the School of Engineering. Lectures cover
+        ethical topics, while teaching assistant-led sections cover technical
+        writing. \\
+
+        I taught a weekly three-hour discussion on technical writing and ethics.
+        As the teaching assistant, I covered all writing requirements for
+        students and provided a series of writing exercises designed to improve
+        their ability to concisely describe, evaluate, and solve ethical
+        dilemmas in Engineering. \\
+
+\end{outerlist}
+
+\section{Professional Experience}
+
+\href{http://www.llnl.gov}{\textbf{Lawrence Livermore National Lab}}, 
+Livermore, CA
+\begin{outerlist}
+
+\item[] \textit{Student Research Intern},
+        \textbf{June 2010 to September 2010}\\
+        Mentor: \textit{David Buttler} \\
+
+        \begin{innerlist}
+        \item Implemented an existing taxonomy expansion algorithm for a highly
+              distributed framework based on Hadoop and HBase
+        \item Implemented several methods for condensing an existing taxonomy
+        \item Evaluateedseveral methods for integrating taxonomy induction and
+              condensation techniques
+        \item Evaluated several methods for enhancing taxonomy expansion
+              and condensation methods such that the resulting taxonomy is
+              customized for a particular domain of knowledge
+        \item Developed a new, java based interface for the widely used WordNet
+              taxonomy \\
+       \end{innerlist}
+\end{outerlist}
+
+\href{http://www.google.com}{\textbf{Google, Inc.}}, 
+Kirkland, WA
+\begin{outerlist}
+
+\item[] \textit{Software Engineering Intern},
+        \textbf{June 2009 to September 2009}\\
+        Mentor: \textit{Zhen Lin} \\
+
+        \begin{innerlist}
+        \item Enhanced a document selection system with the addition of semantic
+              analysis.  This analysis provided a more detailed representation
+              of the document, as it changed over several points in time. This
+              analysis allowed the application to inform users of more relevant
+              aspects of the page.
+        \item Enhanced crawling framework for the document selection system,
+              improving savings by up to 50\% usage of external resources.
+        \item Restructured document selection system to be more scalable and
+              abide by internal policies.
+        \end{innerlist}
+
+\item[] \textit{Software Engineering Intern},
+        \textbf{January 2008 to September 2008}\\
+        Mentor: \textit{Hizakazu Igarashi} \\
+
+        \begin{innerlist}
+        \item Built a highly scalable, stateless server for responding to a wide
+              variety, and high volume, of requests.
+        \item Developed several plugins for the designed server allowing access
+              to a wide variety of data sources.
+        \item Improved serving time of the server by addition of caching
+              responses in memory
+        \item Improved response time of a query formulation system with the use
+              of a Trie, and integration as a plugin for the server.
+        \item Heavily unittested, document, and debugged same server. \\
+        \end{innerlist}
+
+\end{outerlist}
+
+\halfblankline
+
+\href{http://nesl.ee.ucla.edu/}{\textbf{Networked and Embedded Systems Laboratory}}, 
+Los Angeles, CA
+\begin{outerlist}
+
+\item[] \textit{Student Research Intern},
+        \textbf{March 2007 to December 2007}\\
+        Mentor: \textit{Professor Mani Srivastava} \\
+
+        \begin{innerlist}
+        \item Designed multiple modules for use on a Micaz/Mica2 sensor board
+              using the SOS embedded operating system, which is based on a
+              Linux architecture.
+        \item Reduced the transmission rate of nodes by defining a time series
+              representing sensor values.
+        \item Designed a unit test framework for the SOS operating system.
+        \end{innerlist}
+\end{outerlist}
+
+\section{Service}
+
+Recent contributor to several open-source software projects, including:
+\begin{innerlist}
+    \item \href{http://vim-latex.sourceforge.net/}{Vim-LaTeX} suite
+    \item \href{http://vimperator.org}{Vimperator} and
+        \href{http://dactyl.sourceforge.net/pentadactyl/index}{Pentadactyl}
+        Firefox extensions
+    \item \href{http://git-scm.com}{Git} distributed version control
+        system
+    \item \href{http://www.selenic.com/mercurial/}{Mercurial} distributed version control
+        system
+    \item Personal projects archived at
+        \url{http://hg.tedpavlic.com/}
+\end{innerlist}
+
+\halfblankline
+
+Frequent contributor to \href{http://www.wikipedia.org/}{Wikipedia}.
+%
+\begin{innerlist}
+    \item Significant contributions to articles on control theory,
+        electronics, and signals and systems.
+\end{innerlist}
+
+\halfblankline
+
+\href{http://www.osufirst.org/}{OSU FIRST Robotics Team},
+\href{http://www.osu.edu}{The Ohio State University}, 2000--2004
+\begin{innerlist}
+\item Introduced middle school and high school students to science and
+        technology by participating with them in national robotics
+        competitions.
+\item Led 2002 team to regional silver medal
+        \href{http://www.firstwiki.org/Engineering_Inspiration_Award}
+             {\emph{Engineering Inspiration Award}}.
+\item \emph{Lead Team Mentor}, 2002--2004
+\item \emph{Component Design Team Lead Mentor}, 2001--2002
+\end{innerlist}
+
+\halfblankline
+
+Institute for Electrical and Electronics Engineers~(IEEE), Member,
+2002--present
+%
+\begin{innerlist}
+\item IEEE Control Systems Society (2004--present)
+\item IEEE Computer Society (2009--present)
+\item IEEE Intelligent Transportation Systems Society (2011--present)
+\item IEEE Systems, Man, and Cybernetics Society (2011--present)
+\item IEEE Robotics and Automation Society (2011--present)
+\end{innerlist}
+
+\halfblankline
+
+Animal Behavior Society, Member, 2011--present
+
+\halfblankline
+
+Director of Computers,
+\href{http://ec.osu.edu/}{Engineers' Council},
+\href{http://www.osu.edu/}{The Ohio State University}, 2002
+
+\halfblankline
+
+\href{http://www.linuxvirtualserver.org/}
+     {Linux Virtual Server Project}, 1999--2000
+\begin{innerlist}
+\item Early member of the team that formed the open-source project that
+        is now an important load balancing solution for the Linux
+        software platform.
+\end{innerlist}
+
+\halfblankline
+
+\href{http://www.gcfn.org/}
+     {Greater Columbus Free-Net}, 1995--1997
+\begin{innerlist}
+\item Provided technical support services.
+\end{innerlist}
+
+\halfblankline
+
+CompuTeen Bulletin Board System, 1993--1995
+\begin{innerlist}
+\item Administrated dial-up bulletin board system.
+\item Founded and administrated TeenLiNK, an international electronic
+        mail network that spread through the United States, Canada, and
+        Australia and delivered mail over a series of electronic dial-up
+        drop offs.
+\end{innerlist}
+
+
+\section{Application Areas}
+
+Autonomous and Unmanned Vehicles, Flexible Manufacturing Systems,
+Distributed Power Generation, Intelligent Lighting, Power Demand
+Response, Microgrids, Smart Grids
+
+\section{Hardware and Software Skills}
+
+Analog and Digital Electronics:
+%
+\begin{innerlist}
+    \item Bipolar and FET implementations of continuous and switched
+        amplifiers, modulators, converters, and filters
+
+    \item Computer-Aided Design Tools: Cadence OrCAD, NI Multisim, SPICE, pst-circ
+\end{innerlist}
+
+\halfblankline
+
+Embedded and Real-time Systems:
+%
+\begin{innerlist}
+    \item Software and hardware development with several MCU and
+        DSP platforms (e.g., Motorola MCU's, Texas Instruments DSP's, Atmel
+        ATmega MCU's, Microchip PIC MCU's, and others)
+\end{innerlist}
+
+\halfblankline
+
+Instrumentation, Control, Data Acquisition, Test, and Measurement:
+%
+\begin{innerlist}
+    \item \href{http://www.dspaceinc.com/}{dSPACE} hardware (e.g.,
+        RTI1104) and Control Desk software,
+        \href{http://www.mathworks.com/products/simulink/}{Simulink},
+        \href{http://www.ni.com/}{LabVIEW} and other
+        \href{http://www.ni.com}{National Instruments}
+        control and data acquisition hardware and software (e.g., MIO,
+        SMIO, DSA, DMM, and others), Hewlett-Packard and Agilent
+        bench-top equipment
+\end{innerlist}
+
+\halfblankline
+
+Computer Programming:
+%
+\begin{innerlist}
+    \item C, C$+$$+$, Java, JavaScript, NetLogo, Pascal, Perl, PHP,
+        Lisp, UNIX shell scripting (including POSIX.2), GNU make,
+        AppleScript, SQL, MySQL, \Matlab, Maple, Mathematica, and others
+\end{innerlist}
+
+\halfblankline
+
+Version Control and Software Configuration Management:
+%
+\begin{innerlist}
+    \item DVCS (Mercurial/MQ, Git/StGit), VCS (RCS, CVS, SVN, SCCS), and
+        others
+\end{innerlist}
+
+\halfblankline
+
+\href{http://www.mathworks.com/products/matlab/}{\Matlab} skill set:
+%
+\begin{innerlist}
+    \item Linear algebra, Fourier transforms, Monte Carlo analysis,
+        nonlinear numerical methods, polynomials, statistics,
+        $N$-dimensional filters, visualization
+
+    \item Toolboxes: communications, control system, filter design,
+        genetic algorithm and direct search, signal processing, system
+        identification
+\end{innerlist}
+
+\halfblankline
+
+Software Verification:
+%
+\begin{innerlist}
+    \item KeY, PRISM, KeYmaera
+\end{innerlist}
+
+\halfblankline
+
+Information/Internet Technology:
+%
+\begin{innerlist}
+    \item Networking (UDP, TCP, ARP, DNS, Dynamic
+        routing), Services (Apache, SQL, MediaWiki, POP, IMAP, SMTP,
+        application-specific daemon design)
+\end{innerlist}
+
+\halfblankline
+
+Productivity Applications:
+%
+\begin{innerlist}
+    \item \TeX{} (\LaTeX{}, \BibTeX{}, PSTricks), Vim,
+        most common productivity packages (for Windows, OS X, and Linux
+        platforms)
+\end{innerlist}
+
+\halfblankline
+
+Operating Systems:
+%
+\begin{innerlist}
+    \item Microsoft Windows family, Apple OS X, IBM OS/2, Linux, BSD,
+        IRIX, AIX, Solaris, and other UNIX variants
+\end{innerlist}
+
+\section{Expertise}
+
+Mathematics:
+%
+\begin{innerlist}
+    \item Applied Mathematics, Real and Complex Analysis, Measure
+        Theory, Differential Geometry, Game Theory, Graph Theory,
+        Combinatorics
+\end{innerlist}
+
+\halfblankline
+
+Control Theory and Engineering:
+%
+\begin{innerlist}
+    \item Linear and Nonlinear Systems Theory, Feedback, Variable
+        Structure Systems and Sliding Modes, Distributed and Intelligent
+        Control, Dynamic Optimization, Bio-mimicry, Bio-inspiration,
+        Hybrid and CyberPhysical Systems
+\end{innerlist}
+
+\halfblankline
+
+Communications and Signal Processing:
+%
+\begin{innerlist}
+    \item Probability, Random Variables, Stochastic Processes,
+        Information Theory, Estimation, Networks
+\end{innerlist}
+
+\halfblankline
+
+Computer Science and Engineering:
+%
+\begin{innerlist}
+    \item Model Checking (automated, distributed, hybrid,
+        probabilistic), Hybrid Automata, Software Verification,
+        Component-Based Reusable Software
+\end{innerlist}
+
+\halfblankline
+
+Natural Sciences (Biology, Neuroscience, Psychology, Anthropology):
+%
+\begin{innerlist}
+    \item Behavioral Ecology, Foraging Theory, Altruism, Impulsiveness,
+        Evolution
+\end{innerlist}
+
+\section{References Available to Contact}
+
+\href
+{http://www.ece.osu.edu/~passino/}
+{\textbf{Dr.~Kevin M.~Passino}}
+(e-mail:~\href{mailto:passino.1@osu.edu}{passino.1@osu.edu}; phone:~+1-614-312-2472)
+%
+\begin{innerlist}
+    \item Professor,
+        \href{http://www.ece.osu.edu/}{Electrical and Computer
+        Engineering},
+        \href{http://www.osu.edu/}{The Ohio State University}
+
+    \item[$\diamond$] 205 Dreese Laboratories, 2015 Neil Ave., Columbus,
+        OH  43210
+
+    \item[$\star$] \emph{Dr.~Passino was my graduate adviser.}
+\end{innerlist}
+
+\halfblankline
+
+\href
+{http://www.cse.ohio-state.edu/~weide/}
+{\textbf{Dr.~Bruce W.~Weide}}
+(e-mail:~\href{mailto:weide.1@osu.edu}{weide.1@osu.edu}; phone:~+1-614-292-1517)
+\begin{innerlist}
+    \item Professor and Associate Chair,
+        \href{http://www.cse.ohio-state.edu/}{Computer Science and
+        Engineering}\\
+        \href{http://www.osu.edu/}{The Ohio State University}
+
+    \item[$\diamond$] 395 Dreese Laboratories, 2015 Neil Ave., Columbus,
+        OH  43210
+
+    \item[$\star$] \emph{Dr.~Weide is a co-PI on the NSF grant that
+        funds my current postdoctoral position.}
+\end{innerlist}
+
+\halfblankline
+
+\href
+{http://hamilton-lab.wikidot.com/}
+{\textbf{Dr.~Ian M.~Hamilton}}
+(e-mail:~\href{mailto:hamilton.598@osu.edu}{hamilton.598@osu.edu}; phone:~+1-614-292-9147)
+%
+\begin{innerlist}
+    \item Assistant Professor,
+        \href{http://eeob.osu.edu/}{Evolution, Ecology, and Organismal Biology}
+        and
+        \href{http://www.math.ohio-state.edu/}{Mathematics}\\
+        \href{http://www.osu.edu/}{The Ohio State University}
+
+    \item[$\diamond$] 300 Aronoff Laboratory, 318 W.~12th Avenue,
+        Columbus, OH  43210
+
+    \item[$\star$] \emph{Dr.~Hamilton has been a valuable
+        interdisciplinary resource to me.}
+\end{innerlist}
+
+\halfblankline
+
+\href
+{http://www.ece.osu.edu/~serrani/}
+{\textbf{Dr.~Andrea Serrani}}
+(e-mail:~\href{mailto:serrani.1@osu.edu}{serrani.1@osu.edu}; phone:~+1-614-292-4976)
+%
+\begin{innerlist}
+    \item Associate Professor,
+        \href{http://www.ece.osu.edu/}{Electrical and Computer Engineering}\\
+        \href{http://www.osu.edu/}{The Ohio State University}
+
+    \item[$\diamond$] 205 Dreese Laboratories, 2015 Neil Ave., Columbus,
+        OH  43210
+
+    \item[$\star$] \emph{Dr.~Serrani was a member of my doctoral
+        committee.}
+\end{innerlist}
+
+\halfblankline
+
+\href
+{http://www.cse.ohio-state.edu/~paolo/}
+{\textbf{Dr.~Paolo A.~G.~Sivilotti}}
+(e-mail:~\href{mailto:sivilotti.1@osu.edu}{sivilotti.1@osu.edu}; phone: +1-614-292-5835)
+\begin{innerlist}
+    \item Associate Professor,
+        \href{http://www.cse.ohio-state.edu/}{Computer Science and Engineering},
+        \href{http://www.osu.edu/}{The Ohio State University}
+
+    \item[$\diamond$] 395 Dreese Laboratories, 2015 Neil Ave., Columbus,
+        OH  43210
+
+    \item[$\star$] \emph{Dr.~Sivilotti is a co-PI on the NSF grant that
+        funds my current postdoctoral position.}
+\end{innerlist}
+
+\halfblankline
+
+\href
+{http://feh.osu.edu/staff/view.html?UID=798}
+{\textbf{Dr.~Richard J.~Freuler}}
+(e-mail:~\href{mailto:freuler.1@osu.edu}{freuler.1@osu.edu}; phone: +1-614-688-0499)
+\begin{innerlist}
+    \item Professor of Practice,
+        \href{http://mae.osu.edu/}{Mechanical and Aerospace Engineering}\\
+        \href{http://www.osu.edu/}{The Ohio State University}
+
+    \item[$\diamond$] 244 Hitchcock Hall, 2070 Neil Ave., Columbus, OH  43210
+
+    \item[$\star$] \emph{Dr.~Freuler coordinates the Fundamentals of
+        Engineering for Honors program in which I served as an
+        instructor early in my academic career.}
+\end{innerlist}
+
+\halfblankline
+
+\href
+{http://mae.osu.edu/people/staab.1}
+{\textbf{Dr.~George H.~Staab}}
+(e-mail:~\href{mailto:staab.1@osu.edu}{staab.1@osu.edu}; phone: +1-614-292-7920)
+\begin{innerlist}
+    \item Associate Professor,
+        \href{http://mae.osu.edu/}{Mechanical and Aerospace Engineering}\\
+        \href{http://www.osu.edu/}{The Ohio State University}
+
+    \item[$\diamond$] W192 Scott Laboratory, 201 W.~19th Ave., Columbus, OH  43210
+
+    \item[$\star$] \emph{Dr.~Staab is the faculty adviser for the OSU
+        FIRST robotics and engineering outreach group of which I was a
+        four-year member and team leader.}
+\end{innerlist}
+
+\halfblankline
+
+\textbf{Dr.~Clayton Daigle}
+(e-mail:~\href{mailto:Clayton.Daigle@silabs.com}{Clayton.Daigle@silabs.com}; phone: +1-512-532-5935)
+\begin{innerlist}
+    \item Mixed-Signal Engineer,
+        \href{http://www.silabs.com/}{Silicon Laboratories}, Austin, TX
+
+    \item[$\star$] \emph{Dr.~Daigle was my direct supervisor when I
+        worked for National Instruments as an analog hardware R\&D
+        engineer.}
+\end{innerlist}
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% End CV Document %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------%
+% The following is copyright and licensing information for
+% redistribution of this LaTeX source code; it also includes a liability
+% statement. If this source code is not being redistributed to others,
+% it may be omitted. It has no effect on the function of the above code.
+%----------------------------------------------------------------------%
+% Copyright (c) 2007, 2008, 2009, 2010, 2011 by Theodore P. Pavlic
+%
+% Unless otherwise expressly stated, this work is licensed under the
+% Creative Commons Attribution-Noncommercial 3.0 United States License. To
+% view a copy of this license, visit
+% http://creativecommons.org/licenses/by-nc/3.0/us/ or send a letter to
+% Creative Commons, 171 Second Street, Suite 300, San Francisco,
+% California, 94105, USA.
+%
+% THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+% OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+% MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+% IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+% CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+% TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+% SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+%----------------------------------------------------------------------%
